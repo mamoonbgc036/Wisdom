@@ -1,5 +1,7 @@
 <?php 
 
+require_once( get_theme_file_path( '/inc/tgm.php' ) );
+
 if( site_url() == 'http://127.0.0.1/WordPress' ) {
     define( 'VERSION', time() );
 } else{
@@ -11,10 +13,12 @@ function wisdom_theme_setup(){
     add_theme_support( 'post-thumbnails' );
     add_theme_support( 'title-tag' );
     add_theme_support( 'html5', array( 'search-form', 'comment-list' ) );
-    add_theme_support( 'post-formats', array( 'image', 'gallery', 'quote', 'audio', 'video' ) );
+    add_theme_support( 'post-formats', array( 'image', 'gallery', 'quote', 'audio', 'video', 'link' ) );
     add_editor_style( "/assets/css/editor-style.css" );
 
     register_nav_menu( 'topmenu', __( 'Top Menu', 'Wisdom' ) );
+
+    add_image_size( 'wisdom_post_square', 400, 400, true );
 }
 
 add_action( "after_setup_theme", "wisdom_theme_setup" );
