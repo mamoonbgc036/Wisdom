@@ -13,6 +13,8 @@ function wisdom_theme_setup(){
     add_theme_support( 'html5', array( 'search-form', 'comment-list' ) );
     add_theme_support( 'post-formats', array( 'image', 'gallery', 'quote', 'audio', 'video' ) );
     add_editor_style( "/assets/css/editor-style.css" );
+
+    register_nav_menu( 'topmenu', __( 'Top Menu', 'Wisdom' ) );
 }
 
 add_action( "after_setup_theme", "wisdom_theme_setup" );
