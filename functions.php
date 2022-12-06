@@ -2,6 +2,8 @@
 
 require_once( get_theme_file_path( '/inc/tgm.php' ) );
 require_once( get_theme_file_path( '/inc/attachments.php' ) );
+require_once( get_theme_file_path( '/widgets/wisdom-social-icons.php' ) );
+
 
 if( site_url() == 'http://127.0.0.1/WordPress' ) {
     define( 'VERSION', time() );
@@ -18,6 +20,11 @@ function wisdom_theme_setup(){
     add_editor_style( "/assets/css/editor-style.css" );
 
     register_nav_menu( 'topmenu', __( 'Top Menu', 'Wisdom' ) );
+    register_nav_menus( array(
+        'footer-left' => __( 'Footer Left Menu', 'wisdom' ),
+        'footer-middle' => __( 'Footer Middle Menu', 'wisdom' ),
+        'footer-right' => __( 'Footer Right Menu', 'wisdom' ),
+    ) );
 
     add_image_size( 'wisdom_post_square', 400, 400, true );
 }
@@ -111,12 +118,40 @@ function wisdom_widget_init() {
         'before_title'  => '',
         'after_title'   => '',
     ) );
+      register_sidebar( array(
+        'name'          => __( 'Before Footer Section', 'wisdom' ),
+        'id'            => 'footer-right',
+        'description'   => __( 'Before footer section, right side', 'wisdom' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3>',
+        'after_title'   => '</h3>',
+    ) );
+
+       register_sidebar( array(
+        'name'          => __( 'Footer Right Section', 'wisdom' ),
+        'id'            => 'footer-right-newsletter',
+        'description'   => __( 'Before footer section, newsletter', 'wisdom' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4>',
+        'after_title'   => '</h4>',
+    ) );
+        register_sidebar( array(
+        'name'          => __( 'Footer Bottom Section', 'wisdom' ),
+        'id'            => 'footer-bottom',
+        'description'   => __( 'Before Bottom section, Copyright', 'wisdom' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '',
+        'after_title'   => '',
+    ) );
 }
 
 add_action('widgets_init', 'wisdom_widget_init');
 
 //enable classic editor and disable gutenberg block editor for all post
-//add_filter('use_block_editor_for_post_type', '__return_false', 100);
+add_filter('use_block_editor_for_post_type', '__return_false', 100);
 
 //enable classic editor and disable gutenberg block editor for widget
 add_filter( 'use_widgets_block_editor', '__return_false' );
