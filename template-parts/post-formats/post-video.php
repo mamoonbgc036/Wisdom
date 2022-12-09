@@ -4,10 +4,10 @@
         $wisdom_video_file = get_field( 'source_file' );
     }
  ?>
- <article class="masonry__brick entry format-video" data-aos="fade-up">
+ <article  <?php post_class( 'masonry__brick entry format-video' ); ?> data-aos="fade-up">
 
                     <div class="entry__thumb video-image">
-                        <a href="<?php echo $wisdom_video_file ? $wisdom_video_file : ''?>?color=01aef0&title=0&byline=0&portrait=0" data-lity>
+                        <a href="<?php echo wp_kses_post( $wisdom_video_file ) ? $wisdom_video_file : ''?>?color=01aef0&title=0&byline=0&portrait=0" data-lity>
                            <?php 
                             the_post_thumbnail( 'wisdom_post_square' )
                            ?>

@@ -2,8 +2,9 @@
 
 require_once( get_theme_file_path( '/inc/tgm.php' ) );
 require_once( get_theme_file_path( '/inc/attachments.php' ) );
-require_once( get_theme_file_path( '/widgets/wisdom-social-icons.php' ) );
+//require_once( get_theme_file_path( '/widgets/wisdom-social-icons.php' ) );
 
+if ( ! isset( $content_width ) ) $content_width = 960;
 
 if( site_url() == 'http://127.0.0.1/WordPress' ) {
     define( 'VERSION', time() );
@@ -14,6 +15,8 @@ if( site_url() == 'http://127.0.0.1/WordPress' ) {
 function wisdom_theme_setup(){
     load_theme_textdomain( 'wisdom' );
     add_theme_support( 'post-thumbnails' );
+    add_theme_support( 'automatic-feed-links' );
+    add_theme_support( 'custom-logo' );
     add_theme_support( 'title-tag' );
     add_theme_support( 'html5', array( 'search-form', 'comment-list' ) );
     add_theme_support( 'post-formats', array( 'image', 'gallery', 'quote', 'audio', 'video', 'link' ) );
@@ -32,7 +35,7 @@ function wisdom_theme_setup(){
 add_action( "after_setup_theme", "wisdom_theme_setup" );
 
 function wisdom_enqueue_style_and_scripts(){
-    wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css' );
+    wp_enqueue_style( 'font-awesome', get_theme_file_uri( 'assets/css/font-awesome/all.min.css' ) );
     wp_enqueue_style( 'font-css', get_theme_file_uri( 'assets/css/fonts.css' ), null, '1.0' );
     wp_enqueue_style( 'base-css', get_theme_file_uri( 'assets/css/base.css' ), null, '1.0' );
     wp_enqueue_style( 'vendor-css', get_theme_file_uri( 'assets/css/vendor.css' ), null, '1.0' );
@@ -43,6 +46,7 @@ function wisdom_enqueue_style_and_scripts(){
     wp_enqueue_script( 'modernizer-js', get_theme_file_uri( '/assets/js/modernizr.js' ), null, '1.0', false );
     wp_enqueue_script( 'pace-js', get_theme_file_uri( '/assets/js/pace.min.js' ), null, '1.0', false );
     wp_enqueue_script( 'plugin-js', get_theme_file_uri( 'assets/js/plugins.js' ), array( 'jquery' ), '1.0', true );
+    if ( is_singular() ) wp_enqueue_script( "comment-reply" );
     wp_enqueue_script( 'main-js', get_theme_file_uri( 'assets/js/main.js' ), array( 'jquery' ), VERSION, true );
 
 }
@@ -146,6 +150,15 @@ function wisdom_widget_init() {
         'before_title'  => '',
         'after_title'   => '',
     ) );
+        register_sidebar( array(
+        'name'          => __( 'Header Social Section', 'wisdom' ),
+        'id'            => 'header-social',
+        'description'   => __( 'Header Social Section', 'wisdom' ),
+        'before_widget' => '<div id="%1$s" class="%2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '',
+        'after_title'   => '',
+    ) );
 }
 
 add_action('widgets_init', 'wisdom_widget_init');
@@ -155,3 +168,22 @@ add_filter('use_block_editor_for_post_type', '__return_false', 100);
 
 //enable classic editor and disable gutenberg block editor for widget
 add_filter( 'use_widgets_block_editor', '__return_false' );
+
+
+function wisdom_search_form( $form ) {
+    $url = home_url( '/' );
+    $label = __( 'Search For:', 'wisdom' );
+    $search = __( 'Search', 'wisdom' );
+    $newform = <<<Form
+            <form role="search" method="get" class="header__search-form" action="{$url}">
+                <label>
+                    <span class="hide-content">{$label}</span>
+                    <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="{$label}" autocomplete="off">
+                </label>
+                <input type="submit" class="search-submit" value="{$search}">
+            </form>
+        Form;
+    return $newform;
+}
+
+add_filter( 'get_search_form', 'wisdom_search_form' );

@@ -15,11 +15,13 @@
         $posts_data[] = array(
             'title' => get_the_title(),
             'date'  => get_the_date(),
+            'permalink'  => get_permalink(),
             'thumbnail'=> get_the_post_thumbnail_url( get_the_ID(), 'large' ),
             'author' => get_the_author_meta( 'display_name' ),
             'author_url' => get_author_posts_url( get_the_author_meta( 'ID' ) ),
             'author_avatar' => get_avatar_url( get_the_author_meta( 'ID' ) ),
             'cat' => $category->name,
+            'cat_url' => get_category_link( $category ),
         );
     }
     if( $wisdom_fp->post_count > 0 ):
@@ -30,21 +32,21 @@
                 <div class="featured">
 
                     <div class="featured__column featured__column--big">
-                        <div class="entry" style="background-image:url(<?php echo $posts_data[0]['thumbnail']; ?>);">
+                        <div class="entry" style="background-image:url(<?php echo wp_kses_post( $posts_data[0]['thumbnail'] ); ?>);">
 
                             <div class="entry__content">
-                                <span class="entry__category"><a href="#0"><?php echo esc_html( $posts_data[0]['cat'] ); ?></a></span>
+                                <span class="entry__category"><a href="<?php echo esc_url( $posts_data[0]['cat_url'] ); ?>"><?php echo esc_html( $posts_data[0]['cat'] ); ?></a></span>
 
-                                <h1><a href="#0" title=""><?php echo $posts_data[0]['title']; ?></a></h1>
+                                <h1><a href="<?php echo esc_url( $posts_data[0]['permalink'] ); ?>" title="<?php echo wp_kses_post( $posts_data[0]['title'] ); ?>"><?php echo wp_kses_post( $posts_data[0]['title'] ); ?></a></h1>
 
                                 <div class="entry__info">
-                                    <a href="#0" class="entry__profile-pic">
-                                        <img class="avatar" src="" alt="<?php echo $posts_data[0]['author']; ?>">
+                                    <a href="<?php echo esc_url( $posts_data[0]['author_url'] ); ?>" class="entry__profile-pic">
+                                        <img class="avatar" src="" alt="<?php echo wp_kses_post( $posts_data[0]['author'] ); ?>">
                                     </a>
 
                                     <ul class="entry__meta">
-                                        <li><a href="#0"><?php echo $posts_data[0]['author']; ?></a></li>
-                                        <li><?php echo $posts_data[0]['date']; ?></li>
+                                        <li><a href="<?php echo esc_url( $posts_data[0]['author_url'] ); ?>"><?php echo wp_kses_post( $posts_data[0]['author'] ); ?></a></li>
+                                        <li><?php echo wp_kses_post( $posts_data[0]['date'] ); ?></li>
                                     </ul>
                                 </div>
                             </div> <!-- end entry__content -->
@@ -61,17 +63,17 @@
                         <div class="entry" style="background-image:url('<?php echo esc_url( $posts_data[$i]['thumbnail'] ); ?>');">
 
                             <div class="entry__content">
-                                <span class="entry__category"><a href="#0"><?php echo esc_html( $posts_data[$i]['cat'] ); ?></a></span>
+                                <span class="entry__category"><a href="<?php echo esc_url( $posts_data[$i]['cat_url'] ); ?>"><?php echo esc_html( $posts_data[$i]['cat'] ); ?></a></span>
 
-                                <h1><a href="#0" title=""><?php echo esc_html( $posts_data[$i]['title'] ); ?></a></h1>
+                                <h1><a href="<?php echo esc_html( $posts_data[$i]['permalink'] ); ?>" title="<?php echo esc_html( $posts_data[$i]['title'] ); ?>"><?php echo esc_html( $posts_data[$i]['title'] ); ?></a></h1>
 
                                 <div class="entry__info">
-                                    <a href="#0" class="entry__profile-pic">
-                                        <img class="avatar" src="<?php echo esc_url( $posts_data[$i]['author_avatar'] ); ?>" alt="<?php echo $posts_data[$i]['author']; ?>">
+                                    <a href="<?php echo esc_url( $posts_data[$i]['author_url'] ); ?>" class="entry__profile-pic">
+                                        <img class="avatar" src="<?php echo esc_url( $posts_data[$i]['author_avatar'] ); ?>" alt="<?php echo wp_kses_post( $posts_data[$i]['author'] ); ?>">
                                     </a>
 
                                     <ul class="entry__meta">
-                                        <li><a href="#0"><?php echo esc_html( $posts_data[$i]['author'] ); ?></a></li>
+                                        <li><a href="<?php echo esc_url( $posts_data[$i]['author_url'] ); ?>"><?php echo esc_html( $posts_data[$i]['author'] ); ?></a></li>
                                         <li><?php echo esc_html( $posts_data[$i]['date'] ); ?></li>
                                     </ul>
                                 </div>

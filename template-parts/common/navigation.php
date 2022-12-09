@@ -16,7 +16,7 @@
 
         $wisdom_final_menus = str_replace('menu-item-has-children', 'menu-item-has-children has-children', $wisdom_nav_menus);
 
-        echo $wisdom_final_menus;
+        echo wp_kses_post( $wisdom_final_menus );
     ?>
 
     <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>

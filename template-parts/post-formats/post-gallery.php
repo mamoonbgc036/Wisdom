@@ -1,4 +1,4 @@
- <article class="masonry__brick entry format-gallery" data-aos="fade-up">
+ <article <?php post_class( 'masonry__brick entry format-gallery' ); ?> data-aos="fade-up">
     <?php
        if( class_exists( 'Attachments' ) ):
         $attachments = new Attachments( 'gallery' );
@@ -8,7 +8,7 @@
         <div class="slider__slides">
             <?php while( $attachment = $attachments->get() ): ?>
             <div class="slider__slide">
-                <?php echo $attachments->image( 'wisdom_post_square' );?>
+                <?php echo wp_kses_post( $attachments->image( 'wisdom_post_square' ) );?>
             </div>
             <?php  endwhile;?>
         </div>
